@@ -1,4 +1,3 @@
-import json
 import requests
 import requests.auth
 import time
