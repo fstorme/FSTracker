@@ -26,7 +26,7 @@ class StravaReader:
             act_id = this_act['id']
             act_dict = self.client.get_activity(act_id)
             refined_act.append({'name': act_dict["name"],
-                                'comments': act_dict['description'],
+                                'description': act_dict['description'],
                                 'distance': act_dict["distance"],
                                 'sport_type': act_dict["sport_type"],
                                 'date': act_dict['start_date'],
