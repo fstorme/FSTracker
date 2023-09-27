@@ -7,7 +7,7 @@ It offers training load tracking such as acute/chronic ratio, REDI and other sta
 
 ## Strava API
 In order to get started, the first step is to set up your strava API access. There are many different tutorials like this 
-[one]{https://jessicasalbert.medium.com/holding-your-hand-through-stravas-api-e642d15695f2}. 
+[one](https://jessicasalbert.medium.com/holding-your-hand-through-stravas-api-e642d15695f2). 
 
 ## This repo
 The next step is to clone this repo. It is still a work in progress and it is susceptible to change in time.
