@@ -98,7 +98,7 @@ class StravaClient:
         if before is not None:
             if isinstance(before, datetime.datetime):
                 params_call['before'] = int(before.timestamp())
-            if isinstance(before, int):
+            elif isinstance(before, int):
                 params_call['before'] = before
             else:
                 raise TypeError("before must be int or datetime")
@@ -106,8 +106,8 @@ class StravaClient:
         if after is not None:
             if isinstance(after, datetime.datetime):
                 params_call['after'] = int(after.timestamp())
-            if isinstance(after, int):
-                params_call['after'] = before
+            elif isinstance(after, int):
+                params_call['after'] = after
             else:
                 raise TypeError("after must be int or datetime")
 
