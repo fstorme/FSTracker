@@ -72,7 +72,7 @@ def rolling_acwr(df, acute_n=7, chronic_n=28, load_type='sRPE'):
     :param acute_n: number of days for the acute load
     :param chronic_n: number of days for the chronic load
     :param load_type: type of load of interest
-    :return:
+    :return: dataframe with the date and the associated ACWR
     """
     tmp_df = df.set_index('date')
     zero_filled_load = tmp_df[load_type].fillna(0).reset_index()
