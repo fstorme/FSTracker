@@ -65,6 +65,24 @@ def filter_and_aggregate_wl(df, sports=['Run', 'Ride'], load_type='sRPE'):
     return df_agg
 
 
+def rolling_acwr(df, acute_n=7, chronic_n=28, load_type='sRPE'):
+    """
+    rolling ACWR function
+    :param df: workload dataframe
+    :param acute_n: number of days for the acute load
+    :param chronic_n: number of days for the chronic load
+    :param load_type: type of load of interest
+    :return:
+    """
+    tmp_df = df.set_index('date')
+    zero_filled_load = tmp_df[load_type].fillna(0).reset_index()
+    zero_filled_load = zero_filled_load.sort_values(by='date', ascending=True)
+    zero_filled_load['rolling ACWR'] = (zero_filled_load[load_type].rolling(acute_n).mean()/
+                                        zero_filled_load[load_type].rolling(chronic_n).mean()
+                                        )
+    return zero_filled_load[['date', 'rolling ACWR']]
+
+
 if __name__ == '__main__':
     df = pd.read_excel("../data/strava.xlsx",
                        index_col=0,
@@ -73,6 +91,8 @@ if __name__ == '__main__':
     df_wl = filter_and_aggregate_wl(df, sports=['Run', 'Ride'], load_type='sRPE')
     redi_series_007 = redi_df(df_wl, lambda_const=0.07, N=None, col_workload='sRPE')
     redi_series_028 = redi_df(df_wl, lambda_const=0.28, N=None, col_workload='sRPE')
+    rolling_acwr_df = rolling_acwr(df_wl, acute_n=7, chronic_n=28, load_type='sRPE')
     df_proc = redi_series_007.merge(redi_series_028, on='date')
     df_proc = df_proc.merge(df_wl, on='date', how='left')
+    df_proc = df_proc.merge(rolling_acwr_df, on='date', how='left')
     df_proc.to_excel("../data/wl_processed.xlsx")

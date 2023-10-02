@@ -12,10 +12,6 @@ import pandas as pd
 # Data and plot defintions
 wl_processed = pd.read_excel('../data/wl_processed.xlsx', index_col=0, parse_dates=['date'])
 wl_processed = wl_processed.sort_values(by='date', ascending=True)
-wl_processed['Ratio A/C'] = wl_processed['REDI 0.28']/wl_processed['REDI 0.07']
-wl_processed['filled_in_load'] = wl_processed['sRPE'].fillna(0)
-wl_processed['rolling ACWR'] = (wl_processed['filled_in_load'].rolling(7).mean()
-                                /wl_processed['filled_in_load'].rolling(28).mean())
 
 fig_wl = px.bar(wl_processed, x='date', y='sRPE')
 fig_redi = px.line(wl_processed, x='date', y=['REDI 0.07', 'REDI 0.28'])

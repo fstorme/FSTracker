@@ -31,6 +31,6 @@ and then finally `front/landing_front.py`.
 
 
 # Next development
- 1. Training load evaluation based on Strava data
+ 1. Training load evaluation based on Strava data -> So far, ACWR and Redi have been implemented
  2. Data viz app using dash
  3. Incorporate Polar/Garmin etc...
