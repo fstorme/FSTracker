@@ -24,6 +24,11 @@ Once you've set up the Strava API with the correct reading rights you should cre
 ```
 Note that the token `"[YOUR_REFRESH_TOKEN]"`  is the token with the `activity:read_all`permissions form the tutorial.
 
+So far, the pipeline from data acquisition to front is not formalized. It is necessary to run the files `strava_api/strava_reader.py`, then `training_loads/simple_loads.py` 
+and then finally `front/landing_front.py`.
+
+![initial front](./simple_dashboard.png "simple front")
+
 
 # Next development
  1. Training load evaluation based on Strava data
