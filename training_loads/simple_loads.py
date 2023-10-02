@@ -49,10 +49,15 @@ def filter_and_aggregate_wl(df, sports=['Run', 'Ride'], load_type='sRPE'):
     :param load_type: type of work load to compute
     :return: dataframe with aggregate work loads per day
     """
+    acceptable_loads =["sRPE", 'log_sRPE']
+    if load_type not in acceptable_loads:
+        raise Exception('Invalid load_type')
     df_processed = df[['date', 'distance', 'type', 'time', 'rpe']]
     df_processed = df_processed[df_processed['type'].isin(sports)]
     if load_type == 'sRPE':
         df_processed[load_type] = df_processed['time']*df_processed['rpe']
+    if load_type == 'log_sRPE':
+        df_processed[load_type] = np.log(df_processed['time'])*df_processed['rpe']
 
     df_processed['date'] = df_processed['date'].dt.date
     df_agg = df_processed[['date', load_type]].groupby('date')[['sRPE']].sum().reset_index()
