@@ -1,9 +1,9 @@
 import datetime
 import json
-import pandas as pd
-from strava_client import StravaClient
 import os
 import time
+import pandas as pd
+from strava_client import StravaClient
 
 
 class StravaReader:
@@ -63,6 +63,7 @@ class StravaReader:
                 time.sleep(900)
 
         df_act = pd.DataFrame(refined_act)
+        df_act['date'] = df_act['date'].dt.tz_localize(None)
         return df_act
 
     def update_data(self, df, per_page=30):
@@ -76,7 +77,8 @@ class StravaReader:
         last_date = df.date.max()
         new_df = self.initialize_data(after=last_date, per_page=per_page)
 
-        return pd.concat([sorted_df, new_df], axis=1)
+        return (pd.concat([sorted_df, new_df], axis=0, ignore_index=True)
+                .sort_values(by='date', ignore_index=True))
 
 
 if __name__ == "__main__":
@@ -87,12 +89,12 @@ if __name__ == "__main__":
     strava_reader = StravaReader(config_dict)
     # Load data and store it as an excel for simplicity
     if os.path.isfile('../data/strava.xlsx'):
-        df = pd.read_excel('../data/strava.xlsx')
-        os.rename('../data/strava.xlsx', '../data/strava_old.xlsx')
+        df = pd.read_excel('../data/strava.xlsx',
+                           index_col=0,
+                           parse_dates=["date"])
         df = strava_reader.update_data(df)
-        df['date'] = df['date'].dt.tz_localize(None)
+        os.rename('../data/strava.xlsx', '../data/strava_old.xlsx')
         df.to_excel('../data/strava.xlsx')
     else:
         df = strava_reader.initialize_data(after=datetime.datetime(2023, 5, 1))
-        df['date'] = df['date'].dt.tz_localize(None)
         df.to_excel('../data/strava.xlsx')
