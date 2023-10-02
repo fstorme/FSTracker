@@ -71,8 +71,8 @@ if __name__ == '__main__':
                        parse_dates=["date"]
                        )
     df_wl = filter_and_aggregate_wl(df, sports=['Run', 'Ride'], load_type='sRPE')
-    redi_series_007 = redi_df(df_wl, lambda_const=0.07, N=None)
-    redi_series_028 = redi_df(df_wl, lambda_const=0.28, N=None)
+    redi_series_007 = redi_df(df_wl, lambda_const=0.07, N=None, col_workload='sRPE')
+    redi_series_028 = redi_df(df_wl, lambda_const=0.28, N=None, col_workload='sRPE')
     df_proc = redi_series_007.merge(redi_series_028, on='date')
     df_proc = df_proc.merge(df_wl, on='date', how='left')
     df_proc.to_excel("../data/wl_processed.xlsx")
