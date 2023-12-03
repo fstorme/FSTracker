@@ -84,7 +84,7 @@ def rolling_acwr(df, acute_n=7, chronic_n=28, load_type='sRPE'):
 
 
 if __name__ == '__main__':
-    df = pd.read_excel("../data/strava.xlsx",
+    df = pd.read_excel("../../data/strava.xlsx",
                        index_col=0,
                        parse_dates=["date"]
                        )
@@ -95,4 +95,4 @@ if __name__ == '__main__':
     df_proc = redi_series_007.merge(redi_series_028, on='date')
     df_proc = df_proc.merge(df_wl, on='date', how='left')
     df_proc = df_proc.merge(rolling_acwr_df, on='date', how='left')
-    df_proc.to_excel("../data/wl_processed.xlsx")
+    df_proc.to_excel("../../data/wl_processed.xlsx")

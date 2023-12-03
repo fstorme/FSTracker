@@ -84,10 +84,12 @@ def refresh_fun(n_clicks):
     old_raw_data = pd.read_excel('../data/strava.xlsx',
                                  index_col=0,
                                  parse_dates=['date'])
+
     new_raw_data = strava_reader.update_data(old_raw_data)
     os.rename('../data/strava.xlsx', '../data/strava_old.xlsx')
     new_raw_data.to_excel('../data/strava.xlsx')
-    df_wl = filter_and_aggregate_wl(df, sports=['Run', 'Ride'], load_type='sRPE')
+    print("update raw_data")
+    df_wl = filter_and_aggregate_wl(new_raw_data, sports=['Run', 'Ride'], load_type='sRPE')
     redi_series_007 = redi_df(df_wl, lambda_const=0.07, N=None, col_workload='sRPE')
     redi_series_028 = redi_df(df_wl, lambda_const=0.28, N=None, col_workload='sRPE')
     rolling_acwr_df = rolling_acwr(df_wl, acute_n=7, chronic_n=28, load_type='sRPE')

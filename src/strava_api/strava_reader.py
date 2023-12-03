@@ -62,9 +62,12 @@ class StravaReader:
                 n_calls = 1
                 time.sleep(900)
 
-        df_act = pd.DataFrame(refined_act)
-        df_act['date'] = df_act['date'].dt.tz_localize(None)
-        return df_act
+        if len(refined_act)>0:
+            df_act = pd.DataFrame(refined_act)
+            df_act['date'] = df_act['date'].dt.tz_localize(None)
+            return df_act
+        else:
+            return []
 
     def update_data(self, df, per_page=30):
         """
@@ -74,11 +77,16 @@ class StravaReader:
         :return: updated dataframe
         """
         sorted_df = df.sort_values(by='date', ascending=False)
+        print('toto')
         last_date = df.date.max()
+        print('last_date')
         new_df = self.initialize_data(after=last_date, per_page=per_page)
-
-        return (pd.concat([sorted_df, new_df], axis=0, ignore_index=True)
-                .sort_values(by='date', ignore_index=True))
+        print('new_df')
+        if len(new_df)>0:
+            return (pd.concat([sorted_df, new_df], axis=0, ignore_index=True)
+                    .sort_values(by='date', ignore_index=True))
+        else:
+            return sorted_df
 
 
 if __name__ == "__main__":
