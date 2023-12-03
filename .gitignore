@@ -1,4 +1,4 @@
-/strava_api/config_strava.json
+/src/strava_api/config_strava.json
 /data/strava_old.xlsx
 /data/strava.xlsx
 /data/wl_processed.xlsx

@@ -3,7 +3,7 @@ import json
 import os
 import time
 import pandas as pd
-from strava_client import StravaClient
+from .strava_client import StravaClient
 
 
 class StravaReader:
@@ -83,17 +83,17 @@ class StravaReader:
 
 if __name__ == "__main__":
     # All of this is hard codded right now...
-    with open('./config_strava.json', 'r') as f:
+    with open('config_strava.json', 'r') as f:
         config_dict = json.load(f)
 
     strava_reader = StravaReader(config_dict)
     # Load data and store it as an excel for simplicity
-    if os.path.isfile('../data/strava.xlsx'):
+    if os.path.isfile('../../data/strava.xlsx'):
         df = pd.read_excel('../data/strava.xlsx',
                            index_col=0,
                            parse_dates=["date"])
         df = strava_reader.update_data(df)
-        os.rename('../data/strava.xlsx', '../data/strava_old.xlsx')
+        os.rename('../../data/strava.xlsx', '../data/strava_old.xlsx')
         df.to_excel('../data/strava.xlsx')
     else:
         df = strava_reader.initialize_data(after=datetime.datetime(2023, 5, 1))
